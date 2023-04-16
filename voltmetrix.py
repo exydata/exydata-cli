@@ -2,6 +2,8 @@ import click # type: ignore
 import requests # type: ignore
 import json
 
+# voltmetrix cli allows you to interact with the voltmetrix platform. register, add funds to your account, login, deploy, resize and terminate services with this tool.
+
 @click.group()
 def cli():
     pass
