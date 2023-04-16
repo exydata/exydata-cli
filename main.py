@@ -7,6 +7,29 @@ def cli():
     pass
 
 @cli.command()
+@click.option('--email', prompt='Your email', help='The email you use to login to voltmetrix')
+@click.option('--password', prompt='Your password', help='The password you use to login to voltmetrix')
+def register(email, password):
+    """Sign up to voltmetrix platform"""
+    print('Registering...')
+    url = 'http://127.0.0.1:8000/v1/accounts/register'
+    data = json.dumps({"email": email, "password": password})
+    r = requests.post(url, data=data)
+    print(json.dumps(r.json(), indent=4, sort_keys=True))
+
+@click.command()
+@click.option('--email', prompt='Your email', help='The email you use to login to voltmetrix')
+@click.option('--code', prompt='Your confirmation code', help='The confirmation code you received in your email')
+def confirm(email, code):
+    """Confirm your account"""
+    print('Confirming your account...')
+    url = 'http://127.0.0.1:8000/v1/accounts/confirm'
+    data = json.dumps({"email": email, "code": code})
+    r = requests.post(url, data=data)
+    print(json.dumps(r.json(), indent=4, sort_keys=True))
+
+
+@cli.command()
 @click.option('--email', prompt='Your username', help='The username you use to login to voltmetrix')
 @click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to voltmetrix')
 @click.option('--password', prompt='Your password', help='The password you use to login to voltmetrix')
@@ -54,7 +77,7 @@ def resize(resource_id, plan, org_id, token):
     """Resize a resource in Voltmetrix platform"""
     print('Resizing a resource, sit tight...')
     url = 'http://127.0.0.1:8000/v1/services/resize'
-    data = json.dumps({"resource_id": resource_id, "plan": plan, "org_id": org_id, "token": token})
+    data = json.dumps({"resource_id": resource_id, "size": plan, "org_id": org_id, "token": token})
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
 
