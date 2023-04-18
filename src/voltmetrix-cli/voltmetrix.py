@@ -9,13 +9,15 @@ def cli():
     pass
 
 @cli.command()
+@click.option('--first_name', prompt='First Name', help='Your first name')
+@click.option('--last_name', prompt='Last Name', help='Your last name')
 @click.option('--email', prompt='Your email', help='The email you use to login to voltmetrix')
 @click.option('--password', prompt='Your password', help='The password you use to login to voltmetrix')
-def register(email, password):
+def register(first_name, last_name, email, password):
     """Sign up to voltmetrix platform"""
     print('Registering...')
-    url = 'http://127.0.0.1:8000/v1/accounts/register'
-    data = json.dumps({"email": email, "password": password})
+    url = 'https://api.voltmetrix.com/v1/accounts/register'
+    data = json.dumps({"first_name": first_name, "last_name": last_name, "email": email, "password": password})
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
 
@@ -25,7 +27,7 @@ def register(email, password):
 def confirm(email, code):
     """Confirm your account"""
     print('Confirming your account...')
-    url = 'http://127.0.0.1:8000/v1/accounts/confirm'
+    url = 'https://api.voltmetrix.com/v1/accounts/confirm'
     data = json.dumps({"email": email, "code": code})
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
@@ -38,7 +40,7 @@ def confirm(email, code):
 def login(email, org_id, password):
     """Login to voltmetrix platform"""
     print('Logging in...')
-    url = 'http://127.0.0.1:8000/v1/accounts/login'
+    url = 'https://api.voltmetrix.com/v1/accounts/login'
     data = json.dumps({"email": email, "org_id": org_id, "password": password})
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
@@ -52,7 +54,7 @@ def login(email, org_id, password):
 def deploy(database, org_id, token, size, region):
     """Deploy a new resource to Voltmetrix platform"""
     print('Deploying a new resource, sit tight...')
-    url = 'http://127.0.0.1:8000/v1/services/deploy'
+    url = 'https://api.voltmetrix.com/v1/services/deploy'
     data = json.dumps({"database": database, "org_id": org_id, "token": token, "size": size, "region": region})
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
@@ -64,7 +66,7 @@ def deploy(database, org_id, token, size, region):
 def list(org_id, token):
     """List all resources in Voltmetrix platform"""
     print('Listing all databases...')
-    url = 'http://127.0.0.1:8000/v1/services/list'
+    url = 'https://api.voltmetrix.com/v1/services/list'
     data = json.dumps({"org_id": org_id, "token": token})
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
@@ -78,7 +80,7 @@ def list(org_id, token):
 def resize(resource_id, plan, org_id, token):
     """Resize a resource in Voltmetrix platform"""
     print('Resizing a resource, sit tight...')
-    url = 'http://127.0.0.1:8000/v1/services/resize'
+    url = 'https://api.voltmetrix.com/v1/services/resize'
     data = json.dumps({"resource_id": resource_id, "size": plan, "org_id": org_id, "token": token})
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
@@ -97,7 +99,7 @@ def terminate(resource_id, region, org_id, token):
         return
     else:
         print('Terminating a resource, sit tight...')
-        url = 'http://127.0.0.1:8000/v1/services/terminate'
+        url = 'https://api.voltmetrix.com/v1/services/terminate'
         data = json.dumps({"resource_id": resource_id, "region": region, "org_id": org_id, "token": token})
         r = requests.post(url, data=data)
         print(json.dumps(r.json(), indent=4, sort_keys=True))
