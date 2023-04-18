@@ -21,7 +21,7 @@ def register(first_name, last_name, email, password):
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
 
-@click.command()
+@cli.command()
 @click.option('--email', prompt='Your email', help='The email you use to login to voltmetrix')
 @click.option('--code', prompt='Your confirmation code', help='The confirmation code you received in your email')
 def confirm(email, code):
