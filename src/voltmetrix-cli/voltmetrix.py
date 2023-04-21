@@ -59,18 +59,6 @@ def deploy(database, org_id, token, size, region):
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
 
-# list all databases
-@cli.command()
-@click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to voltmetrix')
-@click.option('--token', prompt='Your token', help='The token you use to login to voltmetrix')
-def list(org_id, token):
-    """List all resources in Voltmetrix platform"""
-    print('Listing all databases...')
-    url = 'https://api.voltmetrix.com/v1/services/list'
-    data = json.dumps({"org_id": org_id, "token": token})
-    r = requests.post(url, data=data)
-    print(json.dumps(r.json(), indent=4, sort_keys=True))
-
 # resize a database
 @cli.command()
 @click.option('--resource_id', prompt='Your resource_id', help='The resource_id you want to resize')
@@ -99,10 +87,36 @@ def terminate(resource_id, region, org_id, token):
         return
     else:
         print('Terminating a resource, sit tight...')
-        url = 'https://api.voltmetrix.com/v1/services/terminate'
+        url = 'https://api.voltmetrix.com/v1/services/terminate/'
         data = json.dumps({"resource_id": resource_id, "region": region, "org_id": org_id, "token": token})
         r = requests.post(url, data=data)
         print(json.dumps(r.json(), indent=4, sort_keys=True))
+
+# get a list of all databases
+
+@cli.command()
+@click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to voltmetrix')
+@click.option('--token', prompt='Your token', help='The token you use to login to voltmetrix')
+def list(org_id, token):
+    """List all resources in Voltmetrix platform"""
+    print('Getting a list of all resources...')
+    url = 'https://api.voltmetrix.com/v1/services/list/'
+    data = json.dumps({"org_id": org_id, "token": token})
+    r = requests.post(url, data=data)
+    print(json.dumps(r.json(), indent=4, sort_keys=True))
+
+
+@cli.command()
+@click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to voltmetrix')
+@click.option('--token', prompt='Your token', help='The token you use to login to voltmetrix')
+def balance(org_id, token):
+    """Get your balance"""
+    print('Getting your balance...')
+    url = 'https://api.voltmetrix.com/v1/accounts/balance'
+    data = json.dumps({"org_id": org_id, "token": token})
+    r = requests.post(url, data=data)
+    print(json.dumps(r.json(), indent=4, sort_keys=True))
+
 
 if __name__ == '__main__':
     cli()
