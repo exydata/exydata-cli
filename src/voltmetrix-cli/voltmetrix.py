@@ -106,7 +106,7 @@ def list(org_id, token):
 def balance(org_id, token):
     """Get your balance"""
     print('Getting your balance...')
-    url = 'https://api.voltmetrix.com/v1/accounts/balance'
+    url = 'https://api.voltmetrix.com/v1/accounts/balance/get'
     data = json.dumps({"org_id": org_id, "token": token})
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
