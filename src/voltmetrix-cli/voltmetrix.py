@@ -62,14 +62,14 @@ def deploy(database, org_id, token, size, region):
 # resize a database
 @cli.command()
 @click.option('--resource_id', prompt='Your resource_id', help='The resource_id you want to resize')
-@click.option('--plan', prompt='Your size', help='The size you want to resize')
+@click.option('--size', prompt='Your size', help='The size you want to resize')
 @click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to voltmetrix')
 @click.option('--token', prompt='Your token', help='The token you use to login to voltmetrix')
-def resize(resource_id, plan, org_id, token):
+def resize(resource_id, size, org_id, token):
     """Resize a resource in Voltmetrix platform"""
     print('Resizing a resource, sit tight...')
     url = 'https://api.voltmetrix.com/v1/services/resize'
-    data = json.dumps({"resource_id": resource_id, "size": plan, "org_id": org_id, "token": token})
+    data = json.dumps({"resource_id": resource_id, "size": size, "org_id": org_id, "token": token})
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
 
@@ -80,14 +80,8 @@ def resize(resource_id, plan, org_id, token):
 @click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to voltmetrix')
 @click.option('--token', prompt='Your token', help='The token you use to login to voltmetrix')
 def terminate(resource_id, region, org_id, token):
-    """Terminate a resource in Voltmetrix platform"""
-    confirmation = input('Are you sure you want to terminate this resource? (y/n): ')
-    if confirmation != 'y':
-        print('Termination aborted')
-        return
-    else:
         print('Terminating a resource, sit tight...')
-        url = 'https://api.voltmetrix.com/v1/services/terminate/'
+        url = 'https://api.voltmetrix.com/v1/services/terminate'
         data = json.dumps({"resource_id": resource_id, "region": region, "org_id": org_id, "token": token})
         r = requests.post(url, data=data)
         print(json.dumps(r.json(), indent=4, sort_keys=True))
