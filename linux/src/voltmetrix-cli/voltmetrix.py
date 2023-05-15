@@ -46,6 +46,7 @@ def login(email, org_id, password):
     print(json.dumps(r.json(), indent=4, sort_keys=True))
 
 @cli.command()
+@click.option('--cloud', prompt='Where you want to deploy', help='You can deploy to AWS and DigitalOcean')
 @click.option('--database', prompt='Your database', help='The database you want to deploy')
 @click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to voltmetrix')
 @click.option('--token', prompt='Your token', help='The token you use to login to voltmetrix')
@@ -61,6 +62,7 @@ def deploy(database, org_id, token, size, region):
 
 # resize a database
 @cli.command()
+@click.option('--cloud', prompt='Where your resource id is running', help='specify the cloud provider, AWS or DigitalOcean')
 @click.option('--resource_id', prompt='Your resource_id', help='The resource_id you want to resize')
 @click.option('--size', prompt='Your size', help='The size you want to resize')
 @click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to voltmetrix')
@@ -75,6 +77,7 @@ def resize(resource_id, size, org_id, token):
 
 # terminate a database, required confirmation from user
 @cli.command()
+@click.option('--cloud', prompt='Where your resource id is running', help='specify the cloud provider, AWS or DigitalOcean')
 @click.option('--resource_id', prompt='Your resource_id', help='The resource_id you want to terminate')
 @click.option('--region', prompt='Your region', help='The region you want to deploy')
 @click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to voltmetrix')
@@ -106,7 +109,7 @@ def list(org_id, token):
 def balance(org_id, token):
     """Get your balance"""
     print('Getting your balance...')
-    url = 'https://api.voltmetrix.com/v1/accounts/balance/get'
+    url = 'https://api.voltmetrix.com/v1/balance/get'
     data = json.dumps({"org_id": org_id, "token": token})
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
