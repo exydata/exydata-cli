@@ -52,11 +52,11 @@ def login(email, org_id, password):
 @click.option('--token', prompt='Your token', help='The token you use to login to voltmetrix')
 @click.option('--size', prompt='Your size', help='The size you want to deploy')
 @click.option('--region', prompt='Your region', help='The region you want to deploy')
-def deploy(database, org_id, token, size, region):
+def deploy(cloud, database, org_id, token, size, region):
     """Deploy a new resource to Voltmetrix platform"""
     print('Deploying a new resource, sit tight...')
     url = 'https://api.voltmetrix.com/v1/services/deploy'
-    data = json.dumps({"database": database, "org_id": org_id, "token": token, "size": size, "region": region})
+    data = json.dumps({"cloud": cloud, "database": database, "org_id": org_id, "token": token, "size": size, "region": region})
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
 
@@ -67,11 +67,11 @@ def deploy(database, org_id, token, size, region):
 @click.option('--size', prompt='Your size', help='The size you want to resize')
 @click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to voltmetrix')
 @click.option('--token', prompt='Your token', help='The token you use to login to voltmetrix')
-def resize(resource_id, size, org_id, token):
+def resize(cloud, resource_id, size, org_id, token):
     """Resize a resource in Voltmetrix platform"""
     print('Resizing a resource, sit tight...')
     url = 'https://api.voltmetrix.com/v1/services/resize'
-    data = json.dumps({"resource_id": resource_id, "size": size, "org_id": org_id, "token": token})
+    data = json.dumps({"cloud": cloud, "resource_id": resource_id, "size": size, "org_id": org_id, "token": token})
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
 
@@ -82,10 +82,10 @@ def resize(resource_id, size, org_id, token):
 @click.option('--region', prompt='Your region', help='The region you want to deploy')
 @click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to voltmetrix')
 @click.option('--token', prompt='Your token', help='The token you use to login to voltmetrix')
-def terminate(resource_id, region, org_id, token):
+def terminate(cloud, resource_id, region, org_id, token):
         print('Terminating a resource, sit tight...')
         url = 'https://api.voltmetrix.com/v1/services/terminate'
-        data = json.dumps({"resource_id": resource_id, "region": region, "org_id": org_id, "token": token})
+        data = json.dumps({"cloud": cloud, "resource_id": resource_id, "region": region, "org_id": org_id, "token": token})
         r = requests.post(url, data=data)
         print(json.dumps(r.json(), indent=4, sort_keys=True))
 
