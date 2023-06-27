@@ -55,7 +55,11 @@ def deploy(cloud, database, org_id, token, size, region):
     url = 'https://api.voltmetrix.com/v1/services/deploy'
     data = json.dumps({"cloud": cloud, "database": database, "org_id": org_id, "token": token, "size": size, "region": region})
     r = requests.post(url, data=data)
-    print(json.dumps(r.json(), indent=4, sort_keys=True))
+    try:
+        response_data = r.json()
+        print(json.dumps(response_data, indent=4, sort_keys=True))
+    except json.JSONDecodeError as e:
+        print(f"Failed to parse JSON response: {e}")
 
 @cli.command()
 @click.option('--cloud', prompt='Where your resource id is running', help='Specify the cloud provider, AWS or DigitalOcean')
@@ -90,7 +94,7 @@ def terminate(cloud, resource_id, region, org_id, token):
 def list(org_id, token):
     """List all resources in Voltmetrix platform"""
     print('Getting a list of all resources...')
-    url = 'https://api.voltmetrix.com/v1/services/list'
+    url = 'https://api.voltmetrix.com/v1/services/list/'
     data = json.dumps({"org_id": org_id, "token": token})
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
