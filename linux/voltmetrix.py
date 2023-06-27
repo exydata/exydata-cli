@@ -1,8 +1,6 @@
-import click # type: ignore
-import requests # type: ignore
+import click
+import requests
 import json
-
-# voltmetrix cli allows you to interact with the voltmetrix platform. register, add funds to your account, login, deploy, resize and terminate services with this tool.
 
 @click.group()
 def cli():
@@ -32,9 +30,8 @@ def confirm(email, code):
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
 
-
 @cli.command()
-@click.option('--email', prompt='Your username', help='The username you use to login to voltmetrix')
+@click.option('--email', prompt='Your email', help='The email you use to login to voltmetrix')
 @click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to voltmetrix')
 @click.option('--password', prompt='Your password', help='The password you use to login to voltmetrix')
 def login(email, org_id, password):
@@ -60,9 +57,8 @@ def deploy(cloud, database, org_id, token, size, region):
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
 
-# resize a database
 @cli.command()
-@click.option('--cloud', prompt='Where your resource id is running', help='specify the cloud provider, AWS or DigitalOcean')
+@click.option('--cloud', prompt='Where your resource id is running', help='Specify the cloud provider, AWS or DigitalOcean')
 @click.option('--resource_id', prompt='Your resource_id', help='The resource_id you want to resize')
 @click.option('--size', prompt='Your size', help='The size you want to resize')
 @click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to voltmetrix')
@@ -75,21 +71,18 @@ def resize(cloud, resource_id, size, org_id, token):
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
 
-# terminate a database, required confirmation from user
 @cli.command()
-@click.option('--cloud', prompt='Where your resource id is running', help='specify the cloud provider, AWS or DigitalOcean')
+@click.option('--cloud', prompt='Where your resource id is running', help='Specify the cloud provider, AWS or DigitalOcean')
 @click.option('--resource_id', prompt='Your resource_id', help='The resource_id you want to terminate')
 @click.option('--region', prompt='Your region', help='The region you want to deploy')
 @click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to voltmetrix')
 @click.option('--token', prompt='Your token', help='The token you use to login to voltmetrix')
 def terminate(cloud, resource_id, region, org_id, token):
-        print('Terminating a resource, sit tight...')
-        url = 'https://api.voltmetrix.com/v1/services/terminate'
-        data = json.dumps({"cloud": cloud, "resource_id": resource_id, "region": region, "org_id": org_id, "token": token})
-        r = requests.post(url, data=data)
-        print(json.dumps(r.json(), indent=4, sort_keys=True))
-
-# get a list of all databases
+    print('Terminating a resource, sit tight...')
+    url = 'https://api.voltmetrix.com/v1/services/terminate'
+    data = json.dumps({"cloud": cloud, "resource_id": resource_id, "region": region, "org_id": org_id, "token": token})
+    r = requests.post(url, data=data)
+    print(json.dumps(r.json(), indent=4, sort_keys=True))
 
 @cli.command()
 @click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to voltmetrix')
@@ -97,11 +90,10 @@ def terminate(cloud, resource_id, region, org_id, token):
 def list(org_id, token):
     """List all resources in Voltmetrix platform"""
     print('Getting a list of all resources...')
-    url = 'https://api.voltmetrix.com/v1/services/list/'
+    url = 'https://api.voltmetrix.com/v1/services/list'
     data = json.dumps({"org_id": org_id, "token": token})
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
-
 
 @cli.command()
 @click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to voltmetrix')
@@ -113,7 +105,6 @@ def balance(org_id, token):
     data = json.dumps({"org_id": org_id, "token": token})
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
-
 
 if __name__ == '__main__':
     cli()
