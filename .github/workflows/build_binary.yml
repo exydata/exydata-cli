@@ -63,7 +63,7 @@ jobs:
             macos/dist/voltmetrix
 
   publish-binaries:
-    needs: [build-linux-macos, build-windows]
+    needs: [build-windows, build-linux-macos]
     runs-on: ubuntu-latest
 
     steps:
