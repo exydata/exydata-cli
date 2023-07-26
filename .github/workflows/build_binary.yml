@@ -105,7 +105,7 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: binaries/linux/dist/voltmetrix
+          asset_path: linux/dist/voltmetrix
           asset_name: voltmetrix
           asset_content_type: application/octet-stream
 
@@ -114,7 +114,7 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: windows-binaries/windows/dist/voltmetrix.exe
+          asset_path: windows/dist/voltmetrix.exe
           asset_name: voltmetrix.exe
           asset_content_type: application/octet-stream
 
@@ -123,6 +123,6 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: binaries/mac/dist/voltmetrix
+          asset_path: mac/dist/voltmetrix
           asset_name: voltmetrix
           asset_content_type: application/octet-stream
