@@ -111,13 +111,13 @@ def add_balance(org_id, token):
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
 
-@cli.command()
+@balance.command()
 @click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to voltmetrix')
 @click.option('--token', prompt='Your token', help='The token you use to login to voltmetrix')
-def balance(org_id, token):
-    """Get your balance"""
-    print('Getting your balance...')
-    url = 'https://api.voltmetrix.com/v1/balance/get'
+def add(org_id, token):
+    """Add balance to your account"""
+    print('Processing...')
+    url = 'https://api.voltmetrix.com/v1/balance/add'
     data = json.dumps({"org_id": org_id, "token": token})
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
