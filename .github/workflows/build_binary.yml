@@ -74,13 +74,18 @@ jobs:
         with:
           name: binaries
 
+      - name: Generate Tag
+        id: generate_tag
+        run: echo ::set-output name=tag::$(date +'%Y%m%d%H%M%S')
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         with:
-          release_name: ${{ date }}-$(git rev-parse --short HEAD)
+          tag_name: ${{ steps.generate_tag.outputs.tag }}
+          release_name: Release ${{ steps.generate_tag.outputs.tag }}
           draft: false
           prerelease: false
 
