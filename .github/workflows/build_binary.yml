@@ -1,0 +1,33 @@
+name: Build Binary
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11
+
+      - name: Install Dependencies
+        run: pip install -r linux/requirements.txt
+
+      - name: Build Binary
+        run: python -m linux/voltmetrix.py
+
+      - name: Rename Compiled File
+        run: mv __pycache__/your_script.cpython-*.pyc voltmetrix.pyc
+
+      - name: Archive Binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: voltmetrix-cli
+          path: voltmetrix.pyc 
