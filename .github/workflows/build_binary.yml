@@ -1,4 +1,4 @@
-name: Build Binary
+name: Build Binaries
 on:
   push:
     branches:
@@ -15,19 +15,32 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.11
+          python-version: 3.x  # Replace 'x' with the desired Python version (e.g., 3.7, 3.8, etc.)
 
-      - name: Install Dependencies
-        run: pip install -r linux/requirements.txt
+      - name: Build Linux Binary
+        run: |
+          cd linux
+          pip install -r requirements.txt
+          pyinstaller --onefile voltmetrix.py
 
-      - name: Build Binary
-        run: python -m linux/voltmetrix.py
+      - name: Build Windows Binary
+        run: |
+          cd windows
+          pip install -r requirements.txt
+          pyinstaller --onefile voltmetrix.py
 
-      - name: Rename Compiled File
-        run: mv __pycache__/your_script.cpython-*.pyc voltmetrix.pyc
+      - name: Build macOS Binary
+        run: |
+          cd mac
+          pip install -r requirements.txt
+          pyinstaller --onefile voltmetrix.py
 
-      - name: Archive Binary
+      - name: Archive Binaries
         uses: actions/upload-artifact@v2
         with:
-          name: voltmetrix-cli
-          path: voltmetrix.pyc 
+          name: binaries
+          path: |
+            linux/dist/voltmetrix
+            windows/dist/voltmetrix.exe
+            mac/dist/voltmetrix
+            
