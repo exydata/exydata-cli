@@ -26,12 +26,6 @@ jobs:
           pip install -r requirements.txt
           pyinstaller --onefile voltmetrix.py
 
-      - name: Build Windows Binary
-        run: |
-          cd windows
-          pip install -r requirements.txt
-          pyinstaller --onefile voltmetrix.py
-
       - name: Build macOS Binary
         run: |
           cd mac
@@ -44,7 +38,6 @@ jobs:
           name: binaries
           path: |
             linux/dist/voltmetrix
-            windows/dist/voltmetrix.exe
             mac/dist/voltmetrix
 
   publish:
@@ -84,17 +77,6 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./linux/dist/voltmetrix
           asset_name: voltmetrix
-          asset_content_type: application/octet-stream
-
-      - name: Upload Binaries (Windows)
-        id: upload_binaries_win
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./windows/dist/voltmetrix.exe
-          asset_name: voltmetrix.exe
           asset_content_type: application/octet-stream
 
       - name: Upload Binaries (macOS)
