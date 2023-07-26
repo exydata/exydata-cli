@@ -5,7 +5,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-linux-macos:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,7 +15,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.11  # Replace 'x' with the desired Python version (e.g., 3.7, 3.8, etc.)
+          python-version: 3.x  # Replace 'x' with the desired Python version (e.g., 3.7, 3.8, etc.)
 
       - name: Install pyinstaller
         run: python -m pip install pyinstaller
@@ -32,7 +32,7 @@ jobs:
           pip install -r requirements.txt
           pyinstaller --onefile voltmetrix.py
 
-      - name: Archive Binaries
+      - name: Archive Binaries (Linux and macOS)
         uses: actions/upload-artifact@v2
         with:
           name: binaries
@@ -40,18 +40,50 @@ jobs:
             linux/dist/voltmetrix
             mac/dist/voltmetrix
 
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x  # Replace 'x' with the desired Python version (e.g., 3.7, 3.8, etc.)
+
+      - name: Install pyinstaller
+        run: python -m pip install pyinstaller
+
+      - name: Build Windows Binary
+        run: |
+          cd windows
+          pip install -r requirements.txt
+          pyinstaller --onefile voltmetrix.py
+
+      - name: Archive Binaries (Windows)
+        uses: actions/upload-artifact@v2
+        with:
+          name: windows-binaries
+          path: windows/dist/voltmetrix.exe
+
   publish:
-    needs: build
+    needs: [build-linux-macos, build-windows]
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Download Binaries
+      - name: Download Binaries (Linux and macOS)
         uses: actions/download-artifact@v2
         with:
           name: binaries
+
+      - name: Download Binaries (Windows)
+        uses: actions/download-artifact@v2
+        with:
+          name: windows-binaries
 
       - name: Generate Tag
         id: generate_tag
@@ -60,8 +92,6 @@ jobs:
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
         with:
           tag_name: ${{ steps.generate_tag.outputs.tag }}
           release_name: Release ${{ steps.generate_tag.outputs.tag }}
@@ -71,21 +101,27 @@ jobs:
       - name: Upload Binaries (Linux)
         id: upload_binaries_linux
         uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./linux/dist/voltmetrix
-          asset_name: voltmetrix
+          asset_path: binaries/linux/dist/voltmetrix
+          asset_name: voltmetrix-cli-linux
+          asset_content_type: application/octet-stream
+
+      - name: Upload Binaries (Windows)
+        id: upload_binaries_win
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: windows-binaries/windows/dist/voltmetrix.exe
+          asset_name: voltmetrix-cli-windows.exe
           asset_content_type: application/octet-stream
 
       - name: Upload Binaries (macOS)
         id: upload_binaries_mac
         uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./mac/dist/voltmetrix
-          asset_name: voltmetrix
+          asset_path: binaries/mac/dist/voltmetrix
+          asset_name: voltmetrix-cli-macos
           asset_content_type: application/octet-stream
+          
