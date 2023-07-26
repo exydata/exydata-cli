@@ -80,8 +80,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          release_name: ${{ date }}-$(git rev-parse --short HEAD)
           draft: false
           prerelease: false
 
