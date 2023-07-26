@@ -83,7 +83,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./linux/dist/voltmetrix
-          asset_name: voltmetrix-cli
+          asset_name: voltmetrix
           asset_content_type: application/octet-stream
 
       - name: Upload Binaries (Windows)
@@ -94,7 +94,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./windows/dist/voltmetrix.exe
-          asset_name: voltmetrix-cli.exe
+          asset_name: voltmetrix.exe
           asset_content_type: application/octet-stream
 
       - name: Upload Binaries (macOS)
@@ -105,5 +105,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./mac/dist/voltmetrix
-          asset_name: voltmetrix-cli
+          asset_name: voltmetrix
           asset_content_type: application/octet-stream
