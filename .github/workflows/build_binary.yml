@@ -97,7 +97,7 @@ jobs:
           release_name: Release ${{ steps.generate_tag.outputs.tag }}
           draft: false
           prerelease: false
-          token: ${{ secrets.ACTION_TOKEN }}
+          auth: ${{ secrets.ACTION_TOKEN }}
 
       - name: Upload Binaries (Linux)
         id: upload_binaries_linux
