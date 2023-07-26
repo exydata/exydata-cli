@@ -89,13 +89,24 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload Binaries
-        id: upload-release-asset
+      - name: Upload Binaries Linux
+        id: upload-release-asset-linux
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./binaries
-          asset_name: binaries
-          asset_content_type: application/zip
+          asset_path: linux/dist/voltmetrix
+          asset_name: voltmetrix
+          asset_content_type: application/octet-stream
+
+      - name: Upload Binaries Windows
+        id: upload-release-asset-windows
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: windows/dist/voltmetrix.exe
+          asset_name: voltmetrix.exe
+          asset_content_type: application/octet-stream
