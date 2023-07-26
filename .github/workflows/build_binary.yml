@@ -32,3 +32,66 @@ jobs:
           name: binaries
           path: |
             linux/dist/voltmetrix
+
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11  # Replace 'x' with the desired Python version (e.g., 3.7, 3.8, etc.)
+
+      - name: Install pyinstaller
+        run: python -m pip install pyinstaller
+
+      - name: Build Windows Binary
+        run: |
+          cd windows
+          pip install -r requirements.txt
+          pyinstaller --onefile voltmetrix.py
+
+      - name: Archive Binaries (Windows)
+        uses: actions/upload-artifact@v2
+        with:
+          name: binaries
+          path: |
+            windows/dist/voltmetrix.exe
+
+  publish-binaries:
+    needs: [build-linux-macos, build-windows]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Download Binaries
+        uses: actions/download-artifact@v2
+        with:
+          name: binaries
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Binaries
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./binaries
+          asset_name: binaries
+          asset_content_type: application/zip
