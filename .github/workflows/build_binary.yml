@@ -32,6 +32,7 @@ jobs:
           name: binaries
           path: |
             linux/dist/voltmetrix
+            macos/dist/voltmetrix
 
   build-windows:
     runs-on: windows-latest
@@ -78,17 +79,6 @@ jobs:
         id: generate_tag
         run: echo ::set-output name=tag::$(date +'%Y%m%d%H%M%S')
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
-        with:
-          tag_name: ${{ steps.generate_tag.outputs.tag }}
-          release_name: Release ${{ steps.generate_tag.outputs.tag }}
-          draft: false
-          prerelease: false
-
       - name: Upload Binaries Linux
         id: upload-release-asset-linux
         uses: actions/upload-release-asset@v1
@@ -110,3 +100,25 @@ jobs:
           asset_path: windows/dist/voltmetrix.exe
           asset_name: voltmetrix.exe
           asset_content_type: application/octet-stream
+
+      - name: Upload Binaries macOS
+        id: upload-release-asset-macos
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: macos/dist/voltmetrix
+          asset_name: voltmetrix
+          asset_content_type: application/octet-stream
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          tag_name: ${{ steps.generate_tag.outputs.tag }}
+          release_name: Release ${{ steps.generate_tag.outputs.tag }}
+          draft: false
+          prerelease: false
