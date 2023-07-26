@@ -103,6 +103,8 @@ jobs:
       - name: Upload Binaries (Linux)
         id: upload_binaries_linux
         uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: linux/dist/voltmetrix
@@ -112,6 +114,8 @@ jobs:
       - name: Upload Binaries (Windows)
         id: upload_binaries_win
         uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: windows/dist/voltmetrix.exe
@@ -121,6 +125,8 @@ jobs:
       - name: Upload Binaries (macOS)
         id: upload_binaries_mac
         uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: mac/dist/voltmetrix
