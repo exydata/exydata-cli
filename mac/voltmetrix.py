@@ -2,6 +2,8 @@ import click
 import requests
 import json
 
+token = None
+
 @click.group()
 def cli():
     pass
@@ -100,27 +102,32 @@ def list(org_id, token):
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
 
+# I want to create a command for balance and then a sub argument for get and add balance. 
+
 @cli.command()
 @click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to voltmetrix')
 @click.option('--token', prompt='Your token', help='The token you use to login to voltmetrix')
 def balance(org_id, token):
-    """Get your balance"""
+    """Get your balance in Voltmetrix platform"""
     print('Getting your balance...')
     url = 'https://api.voltmetrix.com/v1/balance/get'
     data = json.dumps({"org_id": org_id, "token": token})
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
 
-@balance.command()
+@cli.command()
 @click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to voltmetrix')
 @click.option('--token', prompt='Your token', help='The token you use to login to voltmetrix')
-def add(org_id, token):
-    """Add balance to your account"""
+def add_balance(org_id, token):
+    """Add money to your Voltmetrix balance"""
     print('Processing...')
     url = 'https://api.voltmetrix.com/v1/balance/add'
-    data = json.dumps({"org_id": org_id, "token": token})
+    data = json.dumps({"org_id": org_id, "token": token,})
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
+
+
+
 
 if __name__ == '__main__':
     cli()
