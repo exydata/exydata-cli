@@ -68,7 +68,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
         with:
           tag_name: ${{ steps.generate_tag.outputs.tag }}
           release_name: Release ${{ steps.generate_tag.outputs.tag }}
@@ -79,7 +79,7 @@ jobs:
         id: upload_binaries_linux
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./linux/voltmetrix
@@ -90,7 +90,7 @@ jobs:
         id: upload_binaries_win
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./windows/voltmetrix.exe
@@ -101,7 +101,7 @@ jobs:
         id: upload_binaries_mac
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./mac/voltmetrix
