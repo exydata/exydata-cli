@@ -91,7 +91,7 @@ jobs:
             linux/dist/voltmetrix
 
   publish-binaries:
-    needs: [build-windows]
+    needs: [build-windows, build-linux, build-mac]
     runs-on: ubuntu-latest
 
     steps:
