@@ -1,6 +1,6 @@
 # Voltmetrix CLI
 
-This CLI allows you to interact with Voltmetrix platform. You can do the following:
+This CLI allows you to interact with the Voltmetrix platform. You can do the following:
 
 - Create a new Voltmetrix account
 - Confirm / Validate your new account
@@ -15,7 +15,9 @@ This CLI allows you to interact with Voltmetrix platform. You can do the followi
 
 ### Windows
 
-Work in progress
+```powershell
+curl -L https://get.voltmetrix.com/windows/voltmetrix.exe -o voltmetrix.exe
+```
 
 ### Linux
 
@@ -30,4 +32,3 @@ Work in progress
 ## Usage
 
 You can go to our documentation webpage to know more about [deploying resources on the Voltmetrix platform](https://voltmetrix.com/docs/).
-
