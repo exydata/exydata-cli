@@ -25,6 +25,7 @@ jobs:
           cd linux
           pip install -r requirements.txt
           pyinstaller --onefile voltmetrix.py
+          mv dist/voltmetrix ../linux/dist/
 
       - name: Archive Binaries (Linux and macOS)
         uses: actions/upload-artifact@v2
