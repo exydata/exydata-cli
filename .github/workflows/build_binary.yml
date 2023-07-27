@@ -34,7 +34,7 @@ jobs:
             windows/dist/voltmetrix.exe
 
   build-linux:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Checkout Repository
