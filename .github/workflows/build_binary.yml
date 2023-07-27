@@ -33,7 +33,7 @@ jobs:
           path: |
             windows/dist/voltmetrix.exe
 
-  build-linux-macos:
+  build-linux-mac:
     runs-on: ubuntu-latest
 
     steps:
@@ -54,9 +54,9 @@ jobs:
           pip install -r requirements.txt
           pyinstaller --onefile voltmetrix.py
 
-      - name: Build MacOS Binary
+      - name: Build mac Binary
         run: |
-          cd macos
+          cd mac
           pip install -r requirements.txt
           pyinstaller --onefile voltmetrix.py
 
@@ -67,12 +67,12 @@ jobs:
           path: |
             linux/dist/voltmetrix
 
-      - name: Archive Binaries (MacOS)
+      - name: Archive Binaries (mac)
         uses: actions/upload-artifact@v2
         with:
           name: binaries
           path: |
-            macos/dist/voltmetrix    
+            mac/dist/voltmetrix    
 
   publish-binaries:
     needs: [build-windows]
@@ -98,7 +98,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: binaries
-          path: macos/dist
+          path: mac/dist
 
       - name: Generate Tag
         id: generate_tag
@@ -137,13 +137,13 @@ jobs:
           asset_name: voltmetrix
           asset_content_type: application/octet-stream
 
-      - name: Upload Binaries MacOS
-        id: upload-release-asset-macos
+      - name: Upload Binaries mac
+        id: upload-release-asset-mac
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: macos/dist/voltmetrix
+          asset_path: mac/dist/voltmetrix
           asset_name: voltmetrix
           asset_content_type: application/octet-stream
