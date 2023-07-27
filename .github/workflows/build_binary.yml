@@ -39,14 +39,13 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Download Binaries
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: binaries
-          path: |
-            windows/dist/voltmetrix.exe
+          path: windows/dist
 
       - name: Generate Tag
         id: generate_tag
