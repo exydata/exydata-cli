@@ -105,6 +105,7 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: windows/dist/voltmetrix.exe
           asset_name: voltmetrix.exe
+          asset_description: Windows Binary
           asset_content_type: application/octet-stream
 
       - name: Upload Binaries Linux
@@ -116,4 +117,5 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: linux/dist/voltmetrix
           asset_name: voltmetrix
+          asset_description: Linux Binary
           asset_content_type: application/octet-stream
