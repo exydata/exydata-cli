@@ -1,4 +1,4 @@
-name: Build, Publish Binaries, and Push to voltmetrixdotcom/get.voltmetrix.com
+name: Build and Publish Binaries
 on:
   push:
     branches:
@@ -15,7 +15,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.11
+          python-version: 3.11  # Replace 'x' with the desired Python version (e.g., 3.7, 3.8, etc.)
 
       - name: Install pyinstaller
         run: python -m pip install pyinstaller
@@ -43,7 +43,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.11
+          python-version: 3.11  # Replace 'x' with the desired Python version (e.g., 3.7, 3.8, etc.)
 
       - name: Install pyinstaller
         run: python -m pip install pyinstaller
@@ -69,13 +69,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Download Binaries (Windows)
+      - name: Download Binaries
         uses: actions/download-artifact@v3
         with:
           name: binaries
           path: windows/dist
 
-      - name: Download Binaries (Linux)
+      - name: Download Binaries
         uses: actions/download-artifact@v3
         with:
           name: binaries
@@ -89,7 +89,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
         with:
           tag_name: ${{ steps.generate_tag.outputs.tag }}
           release_name: Release ${{ steps.generate_tag.outputs.tag }}
@@ -100,7 +100,7 @@ jobs:
         id: upload-release-asset-windows
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: windows/dist/voltmetrix.exe
@@ -112,28 +112,10 @@ jobs:
         id: upload-release-asset-linux
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: linux/dist/voltmetrix
           asset_name: voltmetrix
           asset_description: Linux Binary
           asset_content_type: application/octet-stream
-
-      - name: Clone Repository
-        run: git clone https://github.com/voltmetrixdotcom/get.voltmetrix.com.git voltmetrix_repo
-
-      - name: Move Windows Binary
-        run: mv windows/dist/voltmetrix.exe voltmetrix_repo/windows/voltmetrix.exe
-
-      - name: Move Linux Binary
-        run: mv linux/dist/voltmetrix voltmetrix_repo/linux/voltmetrix
-
-      - name: Push to Repository
-        working-directory: voltmetrix_repo
-        run: |
-          git config user.name "xe-nvdk"
-          git config user.email "ignacio@voltmetrix.com"
-          git add -A
-          git commit -m "Update binaries"
-          git push origin main
