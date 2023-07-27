@@ -32,42 +32,11 @@ jobs:
           name: binaries
           path: |
             linux/dist/voltmetrix
-
-  publish:
-    needs: [build-linux-macos]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Download Binaries (Linux and macOS)
-        uses: actions/download-artifact@v2
+            
+            # Trigger workflow in the target repository
+      - name: Dispatch Build Artifacts
+        uses: peter-evans/repository-dispatch@v1
         with:
-          name: binaries
-
-      - name: Generate Tag
-        id: generate_tag
-        run: echo ::set-output name=tag::v$(date '+%Y%m%d')-${GITHUB_SHA::7}
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
-        with:
-          tag_name: ${{ steps.generate_tag.outputs.tag }}
-          release_name: Release ${{ steps.generate_tag.outputs.tag }}
-          draft: false
-          prerelease: false
-
-      - name: Upload Binaries (Linux)
-        id: upload_binaries_linux
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: linux/dist/voltmetrix
-          asset_name: voltmetrix
-          asset_content_type: application/octet-stream
+          token: ${{ secrets.ACTIONS_TOKEN }} # Replace with the name of the secret you created for the PAT token
+          repository: voltmetrixdotcom/get.voltmetrix.com # Target repository's username and repo name
+          event-type: build-artifacts
