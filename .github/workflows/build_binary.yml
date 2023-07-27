@@ -121,7 +121,7 @@ jobs:
           asset_content_type: application/octet-stream
 
       - name: Clone Repository
-        run: git clone git@github.com:voltmetrixdotcom/get.voltmetrix.com.git voltmetrix_repo
+        run: git clone https://github.com/voltmetrixdotcom/get.voltmetrix.com.git voltmetrix_repo
 
       - name: Move Windows Binary
         run: mv windows/dist/voltmetrix.exe voltmetrix_repo/windows/voltmetrix.exe
