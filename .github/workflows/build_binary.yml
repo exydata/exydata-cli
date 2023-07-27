@@ -32,11 +32,3 @@ jobs:
           name: binaries
           path: |
             linux/dist/voltmetrix
-            
-            # Trigger workflow in the target repository
-      - name: Dispatch Build Artifacts
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          token: ${{ secrets.ACTIONS_TOKEN }} # Replace with the name of the secret you created for the PAT token
-          repository: voltmetrixdotcom/get.voltmetrix.com # Target repository's username and repo name
-          event-type: build-artifacts
