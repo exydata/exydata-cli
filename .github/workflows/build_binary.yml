@@ -45,6 +45,8 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: binaries
+          path: |
+            windows/dist/voltmetrix.exe
 
       - name: Generate Tag
         id: generate_tag
