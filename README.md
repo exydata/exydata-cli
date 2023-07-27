@@ -16,7 +16,7 @@ This CLI allows you to interact with the Voltmetrix platform. You can do the fol
 ### Windows
 
 ```powershell
-curl -L https://get.voltmetrix.com/windows/voltmetrix.exe -o voltmetrix.exe
+curl https://get.voltmetrix.com/windows/voltmetrix.exe -o voltmetrix.exe
 ```
 
 ### Linux
