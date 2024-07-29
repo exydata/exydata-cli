@@ -45,20 +45,24 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: exydata-cli-${{ matrix.platform }}
-          path: dist/*${{ matrix.platform }}*
+          path: dist/*
+          if-no-files-found: warn
 
   release:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
-          name: exydata-cli-*
+          path: ./dist
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: dist/*
+          files: ./dist/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
