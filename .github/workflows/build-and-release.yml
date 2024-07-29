@@ -16,7 +16,7 @@ jobs:
             script_path: linux/exy.py
             platform: linux
           - os: macos-latest
-            script_path: macos/exy.py
+            script_path: mac/exy.py
             platform: macos
           - os: windows-latest
             script_path: windows/exy.py
