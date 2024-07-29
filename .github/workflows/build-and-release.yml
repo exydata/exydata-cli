@@ -78,5 +78,6 @@ jobs:
         with:
           files: |
             ./dist/exydata-cli-linux/exy
+            ./dist/exydata-cli-windows/exy.exe
         env:
           GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
