@@ -14,12 +14,15 @@ jobs:
         include:
           - os: ubuntu-latest
             script_path: linux/exy.py
+            requirements: linux/requirements.txt
             platform: linux
           - os: macos-latest
             script_path: mac/exy.py
+            requirements: mac/requirements.txt
             platform: macos
           - os: windows-latest
             script_path: windows/exy.py
+            requirements: windows/requirements.txt
             platform: windows
 
     steps:
@@ -34,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pyinstaller
+          pip install -r ${{ matrix.requirements }}
 
       - name: Ensure dist directory exists
         run: mkdir -p dist/${{ matrix.platform }}
