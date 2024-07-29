@@ -48,13 +48,13 @@ def login(email, password):
 @click.option('--database', prompt='Your database', help='The database you want to deploy')
 @click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to exydata')
 @click.option('--token', prompt='Your token', help='The token you use to login to exydata')
-@click.option('--size', prompt='Your size', help='The size you want to deploy')
+@click.option('--plan', prompt='Your plan', help='The plan you want to deploy')
 @click.option('--region', prompt='Your region', help='The region you want to deploy')
-def deploy(cloud, database, org_id, token, size, region):
+def deploy(cloud, database, org_id, token, plan, region):
     """Deploy a new resource to ExyData platform"""
     print('Deploying a new resource, sit tight...')
     url = 'https://api.exydata.com/v1/services/deploy'
-    data = json.dumps({"cloud": cloud, "database": database, "org_id": org_id, "token": token, "size": size, "region": region})
+    data = json.dumps({"cloud": cloud, "database": database, "org_id": org_id, "token": token, "plan": plan, "region": region})
     r = requests.post(url, data=data)
     try:
         response_data = r.json()
@@ -65,15 +65,15 @@ def deploy(cloud, database, org_id, token, size, region):
 @cli.command()
 @click.option('--cloud', prompt='Where your resource id is running', help='Specify the cloud provider, AWS or DigitalOcean')
 @click.option('--region', prompt='Your region', help='The where your instance/resource is running')
-@click.option('--resource_id', prompt='Your resource_id', help='The resource_id you want to resize')
-@click.option('--size', prompt='Your size', help='The size you want to resize')
+@click.option('--resource_id', prompt='Your resource_id', help='The resource_id you want to replan')
+@click.option('--plan', prompt='Your plan', help='The plan you want to replan')
 @click.option('--org_id', prompt='Your org_id', help='The org_id you use to login to exydata')
 @click.option('--token', prompt='Your token', help='The token you use to login to exydata')
-def resize(cloud, region, resource_id, size, org_id, token):
+def replan(cloud, region, resource_id, plan, org_id, token):
     """Resize a resource in ExyData platform"""
     print('Resizing a resource, sit tight...')
-    url = 'https://api.exydata.com/v1/services/resize'
-    data = json.dumps({"cloud": cloud, "region": region, "resource_id": resource_id, "size": size, "org_id": org_id, "token": token})
+    url = 'https://api.exydata.com/v1/services/replan'
+    data = json.dumps({"cloud": cloud, "region": region, "resource_id": resource_id, "plan": plan, "org_id": org_id, "token": token})
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
 
@@ -125,8 +125,6 @@ def add_balance(org_id, token):
     data = json.dumps({"org_id": org_id, "token": token,})
     r = requests.post(url, data=data)
     print(json.dumps(r.json(), indent=4, sort_keys=True))
-
-
 
 
 if __name__ == '__main__':
