@@ -44,6 +44,9 @@ jobs:
           pyinstaller --onefile --distpath dist/${{ matrix.platform }} ${{ matrix.script_path }}
         shell: bash
 
+      - name: List files in dist directory after build for debugging
+        run: ls -l dist/${{ matrix.platform }}
+
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
@@ -63,9 +66,6 @@ jobs:
         with:
           path: ./dist
 
-      - name: Ensure dist directory exists
-        run: mkdir -p dist/${{ matrix.platform }}
-
       - name: List files in dist directory after download for debugging
         run: ls -l ./dist
 
@@ -74,4 +74,4 @@ jobs:
         with:
           files: ./dist/${{ matrix.platform }}/*
         env:
-          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
