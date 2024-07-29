@@ -67,7 +67,11 @@ jobs:
           path: ./dist
 
       - name: List files in dist directory after download for debugging
-        run: ls -R ./dist
+        run: |
+          echo "Listing downloaded artifacts:"
+          ls -R ./dist
+          echo "File details:"
+          find ./dist -type f -exec ls -lh {} \;
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
