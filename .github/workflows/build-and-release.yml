@@ -67,11 +67,11 @@ jobs:
           path: ./dist
 
       - name: List files in dist directory after download for debugging
-        run: ls -l ./dist
+        run: ls -R ./dist  # -R flag lists files in all subdirectories
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ./dist/*/*  # Adjust this if files are not in subdirectories
+          files: ./dist/**/*  # Match all files in all subdirectories
         env:
           GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
