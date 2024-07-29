@@ -72,6 +72,6 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ./dist/${{ matrix.platform }}/*
+          files: ./dist/*/*  # Adjust this if files are not in subdirectories
         env:
-        GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
