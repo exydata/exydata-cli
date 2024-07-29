@@ -29,7 +29,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'  # Use your required Python version
+          python-version: '3.x'
 
       - name: Install dependencies
         run: |
@@ -67,11 +67,14 @@ jobs:
           path: ./dist
 
       - name: List files in dist directory after download for debugging
-        run: ls -R ./dist  # -R flag lists files in all subdirectories
+        run: ls -R ./dist
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ./dist/**/*  # Match all files in all subdirectories
+          files: |
+            ./dist/exydata-cli-linux/*
+            ./dist/exydata-cli-macos/*
+            ./dist/exydata-cli-windows/*
         env:
           GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
