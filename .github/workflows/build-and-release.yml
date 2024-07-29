@@ -73,8 +73,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ./dist/linux/exy
-            ./dist/macos/exy
-            ./dist/windows/exy.exe
+            ./dist/exydata-cli-linux/exy
+            ./dist/exydata-cli-macos/exy
+            ./dist/exydata-cli-windows/exy.exe
         env:
           GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
