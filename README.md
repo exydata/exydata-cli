@@ -1,8 +1,8 @@
-# Voltmetrix CLI
+# ExyData CLI
 
-This CLI allows you to interact with the Voltmetrix platform. You can do the following:
+This CLI allows you to interact with the ExyData platform. You can do the following:
 
-- Create a new Voltmetrix account
+- Create a new ExyData account
 - Confirm / Validate your new account
 - Login to the platform
 - Deploy a new resource
@@ -16,13 +16,13 @@ This CLI allows you to interact with the Voltmetrix platform. You can do the fol
 ### Windows
 
 ```powershell
-curl https://get.voltmetrix.com/windows/voltmetrix.exe -o voltmetrix.exe
+curl https://get.exydata.com/windows/exy.exe -o exy.exe
 ```
 
 ### Linux
 
 ```bash
-curl -L https://get.voltmetrix.com/linux/voltmetrix -o voltmetrix && chmod +x voltmetrix
+curl -L https://get.exydata.com/linux/exy -o exy && chmod +x exy
 ```
 
 ### Mac
@@ -31,4 +31,4 @@ Work in progress
 
 ## Usage
 
-You can go to our documentation webpage to know more about [deploying resources on the Voltmetrix platform](https://voltmetrix.com/docs/).
+You can go to our documentation webpage to know more about [deploying resources on the ExyData platform](https://exydata.com/docs/).
